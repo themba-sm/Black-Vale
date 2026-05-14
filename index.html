@@ -1,0 +1,3059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Black Vale Automation — Power Moves. Automated.</title>
+  <meta name="description" content="Elite AI automation systems for real estate agents. We build AI chatbots, WhatsApp integrations, and automated lead systems that work 24/7." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #050505;
+      --black2: #0a0a0a;
+      --black3: #0f0f0f;
+      --black4: #141414;
+      --black5: #1a1a1a;
+      --black6: #222222;
+      --gold: #c9a84c;
+      --gold2: #e8c96d;
+      --gold3: #f5e098;
+      --gold-dim: #7a6330;
+      --red: #8b0000;
+      --red2: #a30000;
+      --red3: #c00000;
+      --red-glow: rgba(139,0,0,0.3);
+      --crimson: #dc143c;
+      --glass: rgba(255,255,255,0.03);
+      --glass2: rgba(255,255,255,0.06);
+      --glass3: rgba(201,168,76,0.08);
+      --border: rgba(201,168,76,0.15);
+      --border2: rgba(201,168,76,0.3);
+      --text: #e8e8e8;
+      --text-dim: #888;
+      --text-muted: #555;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════════════════
+       SCROLLBAR
+    ═══════════════════════════════════════ */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
+
+    /* ═══════════════════════════════════════
+       CURSOR GLOW
+    ═══════════════════════════════════════ */
+    .cursor-glow {
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(139,0,0,0.08) 0%, transparent 70%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      transition: opacity 0.3s;
+    }
+
+    /* ═══════════════════════════════════════
+       NAV
+    ═══════════════════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(5,5,5,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+      transition: all 0.3s;
+    }
+
+    nav.scrolled {
+      padding: 14px 40px;
+      background: rgba(5,5,5,0.97);
+      border-bottom-color: rgba(201,168,76,0.2);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo-icon {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dim) 100%);
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--black);
+    }
+
+    .nav-logo-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 3px;
+      background: linear-gradient(135deg, var(--gold2) 0%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      padding: 10px 24px;
+      background: linear-gradient(135deg, var(--red2) 0%, var(--red) 100%);
+      color: white !important;
+      border: 1px solid rgba(139,0,0,0.5);
+      border-radius: 4px;
+      font-size: 12px !important;
+      letter-spacing: 2px !important;
+      text-transform: uppercase;
+      transition: all 0.3s !important;
+      box-shadow: 0 0 20px rgba(139,0,0,0.2);
+    }
+
+    .nav-cta:hover {
+      background: linear-gradient(135deg, var(--red3) 0%, var(--red2) 100%) !important;
+      box-shadow: 0 0 30px rgba(139,0,0,0.4) !important;
+      transform: translateY(-1px);
+    }
+
+    .nav-cta::after { display: none !important; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      width: 24px;
+      height: 2px;
+      background: var(--gold);
+      border-radius: 2px;
+      transition: all 0.3s;
+      display: block;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(5,5,5,0.98);
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .mobile-menu.open { display: flex; }
+
+    .mobile-menu a {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      letter-spacing: 4px;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .mobile-menu a:hover { color: var(--gold); }
+
+    .mobile-close {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      font-size: 28px;
+      color: var(--gold);
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    /* ═══════════════════════════════════════
+       HERO SECTION
+    ═══════════════════════════════════════ */
+    #hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding-top: 80px;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 60% 50%, rgba(139,0,0,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,168,76,0.06) 0%, transparent 50%),
+        linear-gradient(180deg, #050505 0%, #0a0a0a 50%, #050505 100%);
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridPulse 8s ease-in-out infinite;
+    }
+
+    @keyframes gridPulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    .hero-particles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: var(--gold);
+      opacity: 0;
+      animation: particleFloat linear infinite;
+    }
+
+    @keyframes particleFloat {
+      0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { transform: translateY(-100px) translateX(30px); opacity: 0; }
+    }
+
+    .hero-container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 60px;
+      min-height: calc(100vh - 80px);
+    }
+
+    .hero-content { padding: 60px 0; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: var(--glass3);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 32px;
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .hero-badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--red3);
+      animation: pulse 2s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.5); }
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(52px, 7vw, 90px);
+      line-height: 0.95;
+      letter-spacing: 2px;
+      margin-bottom: 28px;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+
+    .hero-title .line1 { display: block; color: var(--text); }
+
+    .hero-title .line2 {
+      display: block;
+      background: linear-gradient(135deg, var(--gold3) 0%, var(--gold2) 40%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-title .line3 {
+      display: block;
+      color: var(--red3);
+      text-shadow: 0 0 40px rgba(192,0,0,0.4);
+    }
+
+    .hero-sub {
+      font-size: clamp(15px, 1.4vw, 18px);
+      line-height: 1.7;
+      color: var(--text-dim);
+      margin-bottom: 48px;
+      max-width: 540px;
+      animation: fadeInUp 0.8s ease 0.4s both;
+    }
+
+    .hero-sub span { color: var(--gold); font-weight: 600; }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s ease 0.6s both;
+    }
+
+    .btn-primary {
+      padding: 16px 36px;
+      background: linear-gradient(135deg, var(--red3) 0%, var(--red) 100%);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s;
+      box-shadow: 0 0 30px rgba(192,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.06) 50%, transparent 70%);
+      transform: translateX(-100%) rotate(45deg);
+      transition: transform 0.6s;
+    }
+
+    .btn-primary:hover::before { transform: translateX(100%) rotate(45deg); }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 50px rgba(192,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
+    }
+
+    .btn-secondary {
+      padding: 16px 36px;
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--border2);
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s;
+    }
+
+    .btn-secondary:hover {
+      background: var(--glass3);
+      border-color: var(--gold);
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(201,168,76,0.1);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      animation: fadeInUp 0.8s ease 0.8s both;
+    }
+
+    .hero-stat { text-align: left; }
+
+    .hero-stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, var(--gold2) 0%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .hero-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      min-height: 600px;
+    }
+
+    .hero-image-container {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      animation: heroImageFloat 0.8s ease 0.3s both;
+    }
+
+    @keyframes heroImageFloat {
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .hero-image-frame {
+      position: relative;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .hero-image-frame::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        transparent 30%,
+        rgba(5,5,5,0.3) 70%,
+        rgba(5,5,5,0.9) 100%
+      );
+      z-index: 2;
+    }
+
+    .hero-image-frame::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border: 1px solid transparent;
+      border-image: linear-gradient(135deg, var(--gold) 0%, transparent 50%, var(--red) 100%) 1;
+      z-index: 3;
+    }
+
+    .hero-image-frame img {
+      width: 100%;
+      height: 600px;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      filter: contrast(1.1) brightness(0.9);
+    }
+
+    .hero-image-glow {
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 120px;
+      background: radial-gradient(ellipse, rgba(139,0,0,0.4) 0%, transparent 70%);
+      filter: blur(20px);
+      z-index: 1;
+    }
+
+    .hero-image-name {
+      position: absolute;
+      bottom: 32px;
+      left: 24px;
+      right: 24px;
+      z-index: 10;
+    }
+
+    .hero-image-name h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 1px;
+    }
+
+    .hero-image-name p {
+      font-size: 12px;
+      color: var(--gold);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .hero-floating-card {
+      position: absolute;
+      background: rgba(10,10,10,0.9);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      backdrop-filter: blur(20px);
+      animation: floatCard 4s ease-in-out infinite;
+    }
+
+    .hero-floating-card-1 {
+      top: 60px;
+      right: -20px;
+      animation-delay: 0s;
+    }
+
+    .hero-floating-card-2 {
+      bottom: 100px;
+      left: -30px;
+      animation-delay: 2s;
+    }
+
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .fc-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--red) 0%, var(--red2) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .fc-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      color: var(--gold2);
+      letter-spacing: 1px;
+    }
+
+    .fc-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* ═══════════════════════════════════════
+       SECTION LAYOUTS
+    ═══════════════════════════════════════ */
+    section { position: relative; overflow: hidden; }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 70px;
+    }
+
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 14px;
+      background: var(--glass3);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 5vw, 64px);
+      letter-spacing: 3px;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .section-title span {
+      background: linear-gradient(135deg, var(--gold2) 0%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-subtitle {
+      font-size: 16px;
+      color: var(--text-dim);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ═══════════════════════════════════════
+       SERVICES SECTION
+    ═══════════════════════════════════════ */
+    #services {
+      padding: 120px 0;
+      background: var(--black2);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .service-card {
+      background: var(--glass);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 32px 24px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transform-style: preserve-3d;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .service-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(201,168,76,0.04) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .service-card:hover {
+      border-color: rgba(201,168,76,0.25);
+      transform: translateY(-8px) rotateX(2deg) rotateY(-2deg);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(201,168,76,0.05);
+    }
+
+    .service-card:hover::before { opacity: 1; }
+    .service-card:hover::after { opacity: 1; }
+
+    .service-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, rgba(139,0,0,0.3) 0%, rgba(139,0,0,0.1) 100%);
+      border: 1px solid rgba(139,0,0,0.3);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 20px;
+      transition: all 0.3s;
+    }
+
+    .service-card:hover .service-icon {
+      background: linear-gradient(135deg, rgba(139,0,0,0.5) 0%, rgba(139,0,0,0.2) 100%);
+      box-shadow: 0 0 20px rgba(192,0,0,0.2);
+    }
+
+    .service-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    .service-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ═══════════════════════════════════════
+       HOW IT WORKS
+    ═══════════════════════════════════════ */
+    #process {
+      padding: 120px 0;
+      background: var(--black);
+    }
+
+    .process-track {
+      position: relative;
+      display: flex;
+      gap: 0;
+      overflow: hidden;
+    }
+
+    .process-line {
+      position: absolute;
+      top: 36px;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim), var(--gold), var(--gold-dim), transparent);
+    }
+
+    .process-steps {
+      display: flex;
+      gap: 0;
+      width: 100%;
+      position: relative;
+    }
+
+    .process-step {
+      flex: 1;
+      text-align: center;
+      padding: 0 16px;
+      position: relative;
+      animation: fadeInUp 0.6s ease both;
+    }
+
+    .step-num-wrap {
+      position: relative;
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 24px;
+    }
+
+    .step-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1px solid var(--gold-dim);
+      animation: ringPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes ringPulse {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.15); opacity: 0.2; }
+    }
+
+    .step-num {
+      position: relative;
+      z-index: 2;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--black5) 0%, var(--black4) 100%);
+      border: 1px solid var(--gold-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      color: var(--gold);
+      transition: all 0.3s;
+    }
+
+    .process-step:hover .step-num {
+      border-color: var(--gold);
+      box-shadow: 0 0 30px rgba(201,168,76,0.2);
+      background: linear-gradient(135deg, rgba(201,168,76,0.1) 0%, var(--black4) 100%);
+    }
+
+    .step-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .step-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .step-arrow {
+      position: absolute;
+      top: 22px;
+      right: -8px;
+      color: var(--gold-dim);
+      font-size: 18px;
+      z-index: 10;
+    }
+
+    /* ═══════════════════════════════════════
+       METRICS
+    ═══════════════════════════════════════ */
+    #metrics {
+      padding: 100px 0;
+      background: linear-gradient(180deg, var(--black2) 0%, var(--black) 100%);
+      position: relative;
+    }
+
+    #metrics::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(139,0,0,0.08) 0%, transparent 70%);
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .metric-item {
+      background: var(--black3);
+      padding: 50px 30px;
+      text-align: center;
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .metric-item:hover {
+      background: var(--black4);
+    }
+
+    .metric-item::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 20%;
+      right: 20%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .metric-item:hover::after { opacity: 1; }
+
+    .metric-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(48px, 5vw, 72px);
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, var(--gold3) 0%, var(--gold2) 50%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+      line-height: 1;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 12px;
+      display: block;
+    }
+
+    /* ═══════════════════════════════════════
+       AI DEMO CHATBOT
+    ═══════════════════════════════════════ */
+    #demo {
+      padding: 120px 0;
+      background: var(--black);
+    }
+
+    .demo-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .demo-info h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 4vw, 58px);
+      letter-spacing: 3px;
+      line-height: 1;
+      margin-bottom: 24px;
+    }
+
+    .demo-info h2 span {
+      background: linear-gradient(135deg, var(--gold2) 0%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .demo-info p {
+      font-size: 16px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .demo-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .demo-features li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--text-dim);
+    }
+
+    .demo-features li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .chatbot-widget {
+      background: var(--black3);
+      border: 1px solid rgba(201,168,76,0.15);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 60px rgba(139,0,0,0.05);
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, var(--black5) 0%, var(--black4) 100%);
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chat-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--red) 0%, var(--red2) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .chat-header-info h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .chat-header-info p {
+      font-size: 11px;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+
+    .chat-status {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: #4caf50;
+    }
+
+    .chat-status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4caf50;
+      animation: pulse 2s ease infinite;
+    }
+
+    .chat-messages {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-height: 320px;
+      max-height: 360px;
+      overflow-y: auto;
+    }
+
+    .chat-messages::-webkit-scrollbar { width: 3px; }
+    .chat-messages::-webkit-scrollbar-thumb { background: var(--gold-dim); }
+
+    .chat-msg {
+      display: flex;
+      gap: 10px;
+      animation: msgAppear 0.4s ease;
+    }
+
+    @keyframes msgAppear {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .chat-msg.user { flex-direction: row-reverse; }
+
+    .msg-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--red) 0%, var(--red2) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    .msg-avatar.user-av {
+      background: linear-gradient(135deg, var(--gold-dim) 0%, var(--gold) 100%);
+    }
+
+    .msg-bubble {
+      max-width: 75%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .chat-msg:not(.user) .msg-bubble {
+      background: var(--black5);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--text-dim);
+      border-radius: 4px 12px 12px 12px;
+    }
+
+    .chat-msg.user .msg-bubble {
+      background: linear-gradient(135deg, rgba(139,0,0,0.4) 0%, rgba(139,0,0,0.2) 100%);
+      border: 1px solid rgba(139,0,0,0.3);
+      color: var(--text);
+      border-radius: 12px 4px 12px 12px;
+    }
+
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 14px 18px;
+    }
+
+    .typing-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold-dim);
+      animation: typing 1.2s ease infinite;
+    }
+
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typing {
+      0%, 100% { transform: translateY(0); opacity: 0.4; }
+      50% { transform: translateY(-4px); opacity: 1; }
+    }
+
+    .chat-wa-btn {
+      margin: 0 24px 16px;
+      padding: 12px;
+      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .chat-wa-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+    .chat-input-area {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 16px 24px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .chat-input {
+      flex: 1;
+      background: var(--black5);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: var(--text);
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .chat-input:focus { border-color: rgba(201,168,76,0.3); }
+    .chat-input::placeholder { color: var(--text-muted); }
+
+    .chat-send {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--red3) 0%, var(--red) 100%);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+
+    .chat-send:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(192,0,0,0.3); }
+
+    /* ═══════════════════════════════════════
+       TESTIMONIALS
+    ═══════════════════════════════════════ */
+    #testimonials {
+      padding: 120px 0;
+      background: var(--black2);
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .testimonial-card {
+      background: var(--glass);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 36px 28px;
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .testimonial-card:hover {
+      border-color: rgba(201,168,76,0.15);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    .testimonial-quote {
+      font-size: 40px;
+      color: var(--gold-dim);
+      line-height: 1;
+      margin-bottom: 16px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .testimonial-text {
+      font-size: 15px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      margin-bottom: 28px;
+      font-style: italic;
+    }
+
+    .testimonial-stars {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 20px;
+    }
+
+    .star { color: var(--gold); font-size: 14px; }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .author-avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--black5) 0%, var(--black6) 100%);
+      border: 2px solid var(--gold-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .author-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .author-company {
+      font-size: 12px;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+
+    /* ═══════════════════════════════════════
+       PRICING
+    ═══════════════════════════════════════ */
+    #pricing {
+      padding: 120px 0;
+      background: var(--black);
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 80px;
+    }
+
+    .pricing-card {
+      background: var(--glass);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 40px 32px;
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    }
+
+    .pricing-card.featured {
+      background: linear-gradient(135deg, rgba(201,168,76,0.06) 0%, rgba(10,10,10,0.98) 60%);
+      border-color: var(--gold-dim);
+      box-shadow: 0 0 60px rgba(201,168,76,0.08), inset 0 1px 0 rgba(201,168,76,0.15);
+    }
+
+    .pricing-card.featured:hover {
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 80px rgba(201,168,76,0.12);
+    }
+
+    .pricing-popular-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 4px 20px;
+      background: linear-gradient(135deg, var(--gold2) 0%, var(--gold) 100%);
+      color: var(--black);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    .pricing-tier {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .pricing-price {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 52px;
+      letter-spacing: 1px;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .pricing-price sub {
+      font-size: 22px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      vertical-align: baseline;
+    }
+
+    .pricing-period {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+
+    .pricing-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,0.2), transparent);
+      margin-bottom: 28px;
+    }
+
+    .pricing-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+
+    .pricing-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text-dim);
+    }
+
+    .pricing-features li .check {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(201,168,76,0.2) 0%, rgba(201,168,76,0.05) 100%);
+      border: 1px solid rgba(201,168,76,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .pricing-cta {
+      width: 100%;
+      padding: 14px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .pricing-cta:hover {
+      background: var(--glass3);
+      border-color: var(--gold);
+      box-shadow: 0 0 20px rgba(201,168,76,0.1);
+    }
+
+    .pricing-cta.featured-cta {
+      background: linear-gradient(135deg, var(--gold2) 0%, var(--gold) 100%);
+      border-color: var(--gold);
+      color: var(--black);
+    }
+
+    .pricing-cta.featured-cta:hover {
+      box-shadow: 0 0 40px rgba(201,168,76,0.3);
+      transform: translateY(-2px);
+    }
+
+    /* Retainer section */
+    .retainer-header {
+      text-align: center;
+      margin-bottom: 50px;
+      padding-top: 60px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .retainer-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 14px;
+      background: rgba(139,0,0,0.15);
+      border: 1px solid rgba(139,0,0,0.3);
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 20px;
+    }
+
+    /* ═══════════════════════════════════════
+       CTA CONSULTATION
+    ═══════════════════════════════════════ */
+    #consultation {
+      padding: 120px 0;
+      background: var(--black2);
+      position: relative;
+    }
+
+    #consultation::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 60% at 50% 50%, rgba(139,0,0,0.1) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 30% at 20% 50%, rgba(201,168,76,0.04) 0%, transparent 50%);
+    }
+
+    .consultation-inner {
+      position: relative;
+      z-index: 2;
+      background: linear-gradient(135deg, rgba(10,10,10,0.98) 0%, rgba(15,15,15,0.99) 100%);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 70px;
+      box-shadow: 0 0 80px rgba(139,0,0,0.08), inset 0 1px 0 rgba(201,168,76,0.1);
+      overflow: hidden;
+    }
+
+    .consultation-inner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .consultation-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .consultation-info h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 4vw, 58px);
+      letter-spacing: 3px;
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+
+    .consultation-info h2 span {
+      background: linear-gradient(135deg, var(--gold2) 0%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .consultation-info p {
+      font-size: 15px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .serious-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(139,0,0,0.1);
+      border: 1px solid rgba(139,0,0,0.3);
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--crimson);
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    .consultation-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: var(--black5);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 14px 16px;
+      color: var(--text);
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: border-color 0.3s;
+      -webkit-appearance: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: rgba(201,168,76,0.3);
+      background: var(--black6);
+    }
+
+    .form-group select option { background: var(--black3); }
+    .form-group textarea { resize: vertical; min-height: 90px; }
+
+    .form-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 30px;
+      background: rgba(201,168,76,0.05);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 12px;
+    }
+
+    .form-success.show { display: block; }
+
+    /* ═══════════════════════════════════════
+       FOUNDER SECTION
+    ═══════════════════════════════════════ */
+    #founder {
+      padding: 120px 0;
+      background: var(--black);
+    }
+
+    .founder-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: center;
+    }
+
+    .founder-images {
+      position: relative;
+      height: 600px;
+    }
+
+    .founder-img-main {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 68%;
+      height: 520px;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .founder-img-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      filter: grayscale(20%) contrast(1.05);
+    }
+
+    .founder-img-secondary {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 52%;
+      height: 360px;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: -20px -20px 60px rgba(0,0,0,0.6);
+    }
+
+    .founder-img-secondary img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      filter: grayscale(20%) contrast(1.05);
+    }
+
+    .founder-img-accent {
+      position: absolute;
+      top: 50%;
+      right: -20px;
+      transform: translateY(-50%);
+      width: 36%;
+      height: 200px;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid rgba(201,168,76,0.2);
+    }
+
+    .founder-img-accent img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: grayscale(30%) contrast(1.1);
+    }
+
+    .founder-gold-bar {
+      position: absolute;
+      top: 0;
+      left: -20px;
+      width: 3px;
+      height: 200px;
+      background: linear-gradient(180deg, var(--gold) 0%, transparent 100%);
+    }
+
+    .founder-content { }
+
+    .founder-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .founder-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 4vw, 52px);
+      font-weight: 900;
+      color: var(--text);
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .founder-title {
+      font-size: 14px;
+      color: var(--red3);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+
+    .founder-bio {
+      font-size: 16px;
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 48px;
+    }
+
+    .founder-bio strong { color: var(--gold); font-weight: 600; }
+
+    .founder-contacts {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 20px;
+      background: var(--glass);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .contact-item:hover {
+      border-color: rgba(201,168,76,0.2);
+      background: var(--glass3);
+      transform: translateX(6px);
+    }
+
+    .contact-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(201,168,76,0.15) 0%, rgba(201,168,76,0.05) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .contact-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .contact-value {
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .founder-social {
+      display: flex;
+      gap: 12px;
+    }
+
+    .social-btn {
+      padding: 12px 24px;
+      background: var(--glass);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s;
+    }
+
+    .social-btn:hover {
+      border-color: rgba(201,168,76,0.3);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    /* ═══════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════ */
+    footer {
+      background: var(--black2);
+      border-top: 1px solid rgba(201,168,76,0.1);
+      padding: 60px 0 30px;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 50px;
+    }
+
+    .footer-brand h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 4px;
+      background: linear-gradient(135deg, var(--gold2) 0%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+
+    .footer-tagline {
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .footer-brand p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 280px;
+    }
+
+    .footer-col h4 {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover { color: var(--text-dim); }
+
+    .footer-bottom {
+      padding-top: 30px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .footer-copy span { color: var(--gold-dim); }
+
+    /* ═══════════════════════════════════════
+       MODAL
+    ═══════════════════════════════════════ */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      backdrop-filter: blur(10px);
+      z-index: 9000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--black3);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px;
+      max-width: 560px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      animation: modalIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.9) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px;
+      transition: color 0.3s;
+    }
+
+    .modal-close:hover { color: var(--text); }
+
+    .modal h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      letter-spacing: 3px;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .modal h2 span {
+      background: linear-gradient(135deg, var(--gold2) 0%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .modal p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .modal-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ═══════════════════════════════════════
+       ANIMATIONS
+    ═══════════════════════════════════════ */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .animate-on-scroll.delay-1 { transition-delay: 0.1s; }
+    .animate-on-scroll.delay-2 { transition-delay: 0.2s; }
+    .animate-on-scroll.delay-3 { transition-delay: 0.3s; }
+    .animate-on-scroll.delay-4 { transition-delay: 0.4s; }
+
+    /* ═══════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════ */
+    @media (max-width: 1100px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+      .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .hero-container {
+        grid-template-columns: 1fr;
+        padding: 0 24px;
+        gap: 40px;
+        min-height: auto;
+        padding-bottom: 60px;
+      }
+
+      .hero-content { padding: 40px 0 0; text-align: center; }
+      .hero-sub { max-width: 100%; }
+      .hero-buttons { justify-content: center; }
+      .hero-stats { justify-content: center; }
+
+      .hero-visual { min-height: 400px; }
+      .hero-image-frame img { height: 420px; }
+      .hero-floating-card-1 { right: 0; top: 20px; }
+      .hero-floating-card-2 { left: 0; bottom: 60px; }
+
+      .demo-container { grid-template-columns: 1fr; }
+      .consultation-layout { grid-template-columns: 1fr; gap: 40px; }
+      .consultation-inner { padding: 40px 28px; }
+      .form-row { grid-template-columns: 1fr; }
+
+      .founder-layout { grid-template-columns: 1fr; gap: 40px; }
+      .founder-images { height: 400px; }
+      .founder-img-main { width: 60%; height: 380px; }
+      .founder-img-secondary { width: 48%; height: 280px; }
+      .founder-img-accent { display: none; }
+
+      .pricing-grid { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto 80px; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 40px; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+
+      .process-steps { flex-direction: column; gap: 40px; }
+      .process-line { display: none; }
+      .step-arrow { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 0 20px; }
+      nav { padding: 14px 20px; }
+
+      .hero-title { font-size: 44px; }
+      .hero-buttons { flex-direction: column; align-items: center; }
+      .hero-stats { flex-wrap: wrap; gap: 24px; justify-content: center; }
+      .hero-stats { text-align: center; }
+
+      .btn-primary, .btn-secondary {
+        width: 100%;
+        max-width: 320px;
+        justify-content: center;
+      }
+
+      .services-grid { grid-template-columns: 1fr; }
+      .metrics-grid { grid-template-columns: 1fr 1fr; }
+
+      .modal { padding: 32px 24px; }
+
+      .form-buttons { flex-direction: column; }
+      .form-buttons .btn-primary,
+      .form-buttons .btn-secondary { width: 100%; justify-content: center; }
+
+      .founder-images { height: 320px; }
+      .founder-img-main { height: 300px; }
+      .founder-img-secondary { height: 200px; }
+
+      .retainer-grid { grid-template-columns: 1fr !important; }
+
+      footer { padding: 40px 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CURSOR GLOW -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" onclick="toggleMenu()">✕</button>
+    <a href="#services" onclick="toggleMenu()">Services</a>
+    <a href="#process" onclick="toggleMenu()">Process</a>
+    <a href="#demo" onclick="toggleMenu()">Demo</a>
+    <a href="#pricing" onclick="toggleMenu()">Pricing</a>
+    <a href="#founder" onclick="toggleMenu()">About</a>
+    <a href="#consultation" onclick="toggleMenu()" style="color: var(--gold);">Book Now</a>
+  </div>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">
+      <div class="nav-logo-icon">BV</div>
+      <span class="nav-logo-text">Black Vale</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#demo">Demo</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#founder">About</a></li>
+      <li><a href="#consultation" class="nav-cta">Book Now</a></li>
+    </ul>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-particles" id="heroParticles"></div>
+
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          Elite AI Automation • South Africa
+        </div>
+
+        <h1 class="hero-title">
+          <span class="line1">Your Competition</span>
+          <span class="line2">Sleeps.</span>
+          <span class="line3">Your AI Doesn't.</span>
+        </h1>
+
+        <p class="hero-sub">
+          We build AI systems that handle buyer inquiries, qualify leads, and send <span>serious clients directly to your WhatsApp</span> — automatically. 24/7. No exceptions.
+        </p>
+
+        <div class="hero-buttons">
+          <button class="btn-primary" onclick="openModal()">
+            ⚡ Book Consultation
+          </button>
+          <a href="#demo" class="btn-secondary">
+            ▶ See The System
+          </a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <span class="hero-stat-num" data-count="24">24/7</span>
+            <span class="hero-stat-label">Always On</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num">3X</span>
+            <span class="hero-stat-label">More Leads</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num">87%</span>
+            <span class="hero-stat-label">Faster Response</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-image-container">
+          <div class="hero-image-frame">
+            <img
+              src="https://media.base44.com/images/public/6a05094a3d383c5c92302027/8cc62dfd3_file_00000000a4f071fd9b50ecaec613976d.png"
+              alt="Sinethemba Mtshali — Founder & CEO, Black Vale Automation"
+            />
+            <div class="hero-image-name">
+              <h3>Sinethemba Mtshali</h3>
+              <p>Founder & CEO — Black Vale Automation</p>
+            </div>
+          </div>
+          <div class="hero-image-glow"></div>
+
+          <div class="hero-floating-card hero-floating-card-1">
+            <div class="fc-icon">🤖</div>
+            <div class="fc-num">247</div>
+            <div class="fc-label">Leads Captured Today</div>
+          </div>
+
+          <div class="hero-floating-card hero-floating-card-2">
+            <div class="fc-icon">💬</div>
+            <div class="fc-num">98%</div>
+            <div class="fc-label">Response Rate</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       SERVICES
+  ═══════════════════════════════════════ -->
+  <section id="services">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge animate-on-scroll">Elite Services</div>
+        <h2 class="section-title animate-on-scroll delay-1">AI Systems That <span>Close Deals</span></h2>
+        <p class="section-subtitle animate-on-scroll delay-2">
+          Every tool in our arsenal is engineered for one purpose — putting qualified buyers in your pipeline while you sleep.
+        </p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card animate-on-scroll">
+          <div class="service-icon">🤖</div>
+          <div class="service-title">AI Chatbots</div>
+          <div class="service-desc">Intelligent conversational agents that handle every buyer inquiry with human-like precision, 24 hours a day.</div>
+        </div>
+        <div class="service-card animate-on-scroll delay-1">
+          <div class="service-icon">🎯</div>
+          <div class="service-title">Lead Qualification AI</div>
+          <div class="service-desc">Automated scoring and filtering — only serious, pre-qualified buyers reach your WhatsApp.</div>
+        </div>
+        <div class="service-card animate-on-scroll delay-2">
+          <div class="service-icon">🎙️</div>
+          <div class="service-title">AI Voice Agents</div>
+          <div class="service-desc">Next-gen voice AI that answers calls, qualifies prospects, and schedules viewings automatically.</div>
+        </div>
+        <div class="service-card animate-on-scroll delay-3">
+          <div class="service-icon">💬</div>
+          <div class="service-title">WhatsApp Integration</div>
+          <div class="service-desc">Seamless WhatsApp Business automation — serious leads delivered directly to your chat, pre-qualified.</div>
+        </div>
+        <div class="service-card animate-on-scroll">
+          <div class="service-icon">🏠</div>
+          <div class="service-title">Real Estate Websites</div>
+          <div class="service-desc">High-converting property websites built with AI-powered lead capture and listing automation.</div>
+        </div>
+        <div class="service-card animate-on-scroll delay-1">
+          <div class="service-icon">📊</div>
+          <div class="service-title">CRM Automation</div>
+          <div class="service-desc">Full pipeline management — contacts, follow-ups, status tracking, and deal progression automated.</div>
+        </div>
+        <div class="service-card animate-on-scroll delay-2">
+          <div class="service-icon">📅</div>
+          <div class="service-title">Booking Systems</div>
+          <div class="service-desc">AI-powered viewing schedules that sync with your calendar and confirm appointments automatically.</div>
+        </div>
+        <div class="service-card animate-on-scroll delay-3">
+          <div class="service-icon">🔁</div>
+          <div class="service-title">Inquiry Automation</div>
+          <div class="service-desc">Every property inquiry gets an instant, intelligent response — listings, pricing, and availability handled.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       PROCESS
+  ═══════════════════════════════════════ -->
+  <section id="process">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge animate-on-scroll">The System</div>
+        <h2 class="section-title animate-on-scroll delay-1">How It <span>Works</span></h2>
+        <p class="section-subtitle animate-on-scroll delay-2">Five steps from listing click to WhatsApp conversation — fully automated.</p>
+      </div>
+
+      <div style="position: relative;">
+        <div class="process-line"></div>
+        <div class="process-steps animate-on-scroll">
+          <div class="process-step">
+            <div class="step-num-wrap">
+              <div class="step-ring"></div>
+              <div class="step-num">01</div>
+            </div>
+            <div class="step-title">Buyer Clicks Listing</div>
+            <div class="step-desc">Prospect sees your property and engages with your listing page or portal</div>
+            <span class="step-arrow">→</span>
+          </div>
+          <div class="process-step">
+            <div class="step-num-wrap">
+              <div class="step-ring"></div>
+              <div class="step-num">02</div>
+            </div>
+            <div class="step-title">AI Responds Instantly</div>
+            <div class="step-desc">Within seconds, your AI greets the buyer with property details and questions</div>
+            <span class="step-arrow">→</span>
+          </div>
+          <div class="process-step">
+            <div class="step-num-wrap">
+              <div class="step-ring"></div>
+              <div class="step-num">03</div>
+            </div>
+            <div class="step-title">Lead Gets Qualified</div>
+            <div class="step-desc">Budget, timeline, and intent assessed automatically by the AI system</div>
+            <span class="step-arrow">→</span>
+          </div>
+          <div class="process-step">
+            <div class="step-num-wrap">
+              <div class="step-ring"></div>
+              <div class="step-num">04</div>
+            </div>
+            <div class="step-title">Serious Buyers Forwarded</div>
+            <div class="step-desc">Only pre-qualified, high-intent buyers are sent directly to your WhatsApp</div>
+            <span class="step-arrow">→</span>
+          </div>
+          <div class="process-step">
+            <div class="step-num-wrap">
+              <div class="step-ring"></div>
+              <div class="step-num">05</div>
+            </div>
+            <div class="step-title">You Close Deals Faster</div>
+            <div class="step-desc">You only deal with serious clients. Less noise. More closings. More commission.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       METRICS
+  ═══════════════════════════════════════ -->
+  <section id="metrics">
+    <div class="container">
+      <div class="metrics-grid animate-on-scroll">
+        <div class="metric-item">
+          <span class="metric-num" data-target="24">24/7</span>
+          <span class="metric-label">Automated Replies — Always On</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-num">3X</span>
+          <span class="metric-label">More Qualified Leads Per Month</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-num">87%</span>
+          <span class="metric-label">Faster Response Time</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-num">0</span>
+          <span class="metric-label">Missed Inquiries. Ever.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       AI DEMO
+  ═══════════════════════════════════════ -->
+  <section id="demo">
+    <div class="container">
+      <div class="demo-container">
+        <div class="demo-info animate-on-scroll">
+          <div class="section-badge" style="margin-bottom: 20px;">Live Demo</div>
+          <h2>See Your AI <span>In Action</span></h2>
+          <p>This is the exact conversational AI your buyers will experience. Intelligent, instant, and built to convert — watch it handle a real estate inquiry and route serious buyers to WhatsApp.</p>
+          <ul class="demo-features">
+            <li>Answers property questions instantly</li>
+            <li>Qualifies budget and timeline automatically</li>
+            <li>Schedules viewings on your calendar</li>
+            <li>Transfers hot leads directly to WhatsApp</li>
+            <li>Works on your website, Facebook, and Instagram</li>
+          </ul>
+        </div>
+
+        <div class="chatbot-widget animate-on-scroll delay-2">
+          <div class="chat-header">
+            <div class="chat-avatar">🏠</div>
+            <div class="chat-header-info">
+              <h4>Black Vale AI Assistant</h4>
+              <p>Real Estate Specialist</p>
+            </div>
+            <div class="chat-status">
+              <div class="chat-status-dot"></div>
+              Live
+            </div>
+          </div>
+
+          <div class="chat-messages" id="chatMessages">
+            <div class="chat-msg">
+              <div class="msg-avatar">🤖</div>
+              <div class="msg-bubble">
+                Good day! 👋 I'm the Black Vale AI assistant. I can help you find your perfect property, answer questions about listings, pricing, and viewings. What are you looking for?
+              </div>
+            </div>
+          </div>
+
+          <a href="https://wa.me/27670091136?text=Hi%2C%20I%20was%20chatting%20with%20the%20Black%20Vale%20AI%20and%20I%27m%20interested%20in%20learning%20more." target="_blank" class="chat-wa-btn">
+            💬 Transfer to WhatsApp — Speak to an Agent Now
+          </a>
+
+          <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Ask about a property..." onkeypress="handleChatEnter(event)" />
+            <button class="chat-send" onclick="sendChatMessage()">➤</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       TESTIMONIALS
+  ═══════════════════════════════════════ -->
+  <section id="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge animate-on-scroll">Client Results</div>
+        <h2 class="section-title animate-on-scroll delay-1">What Elite Agents <span>Say</span></h2>
+        <p class="section-subtitle animate-on-scroll delay-2">Real estate professionals who moved different.</p>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card animate-on-scroll">
+          <div class="testimonial-quote">"</div>
+          <div class="testimonial-text">Black Vale built us an AI system that's closing deals we never would have caught. Our WhatsApp gets pre-qualified leads every single morning — buyers who are actually ready to buy. Commission is up 40% since we launched.</div>
+          <div class="testimonial-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+          <div class="testimonial-author">
+            <div class="author-avatar">👔</div>
+            <div>
+              <div class="author-name">Thabo Nkosi</div>
+              <div class="author-company">Nkosi Properties — Sandton</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card animate-on-scroll delay-1">
+          <div class="testimonial-quote">"</div>
+          <div class="testimonial-text">I was spending 3 hours a day replying to property enquiries that went nowhere. Now my AI filters them and sends me only the serious ones. I work less and earn more. The system paid for itself in 2 weeks.</div>
+          <div class="testimonial-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+          <div class="testimonial-author">
+            <div class="author-avatar">💼</div>
+            <div>
+              <div class="author-name">Nomvula Dlamini</div>
+              <div class="author-company">Dlamini Realty — Cape Town</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card animate-on-scroll delay-2">
+          <div class="testimonial-quote">"</div>
+          <div class="testimonial-text">The WhatsApp automation alone is worth it. Leads come in qualified, with budget confirmed, ready for a viewing. Sinethemba and his team built something elite. If you're serious about real estate, this is the move.</div>
+          <div class="testimonial-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+          <div class="testimonial-author">
+            <div class="author-avatar">🏆</div>
+            <div>
+              <div class="author-name">Sipho Mahlangu</div>
+              <div class="author-company">Mahlangu & Associates — JHB</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       PRICING
+  ═══════════════════════════════════════ -->
+  <section id="pricing">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge animate-on-scroll">Invest In Your Edge</div>
+        <h2 class="section-title animate-on-scroll delay-1">Choose Your <span>System</span></h2>
+        <p class="section-subtitle animate-on-scroll delay-2">One-time setup investment. Lifetime competitive advantage.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- Starter -->
+        <div class="pricing-card animate-on-scroll">
+          <div class="pricing-tier">Starter</div>
+          <div class="pricing-price"><sub>R</sub>8,500</div>
+          <div class="pricing-period">One-time setup</div>
+          <div class="pricing-divider"></div>
+          <ul class="pricing-features">
+            <li><span class="check">✓</span> AI chatbot setup & training</li>
+            <li><span class="check">✓</span> WhatsApp Business integration</li>
+            <li><span class="check">✓</span> Basic lead automation workflow</li>
+            <li><span class="check">✓</span> 1 property listing workflow</li>
+            <li><span class="check">✓</span> Lead capture system</li>
+          </ul>
+          <button class="pricing-cta" onclick="openModal()">Get Started</button>
+        </div>
+
+        <!-- Elite -->
+        <div class="pricing-card featured animate-on-scroll delay-1">
+          <div class="pricing-popular-badge">⭐ Most Popular</div>
+          <div class="pricing-tier">Elite</div>
+          <div class="pricing-price"><sub>R</sub>24,999</div>
+          <div class="pricing-period">One-time setup</div>
+          <div class="pricing-divider"></div>
+          <ul class="pricing-features">
+            <li><span class="check">✓</span> Advanced AI chatbot system</li>
+            <li><span class="check">✓</span> Full real estate website</li>
+            <li><span class="check">✓</span> Multi-listing automation</li>
+            <li><span class="check">✓</span> CRM integration & setup</li>
+            <li><span class="check">✓</span> Automated follow-up sequences</li>
+            <li><span class="check">✓</span> AI lead qualification engine</li>
+            <li><span class="check">✓</span> Intelligent booking system</li>
+            <li><span class="check">✓</span> Analytics dashboard</li>
+          </ul>
+          <button class="pricing-cta featured-cta" onclick="openModal()">Build My Elite System</button>
+        </div>
+
+        <!-- Empire -->
+        <div class="pricing-card animate-on-scroll delay-2">
+          <div class="pricing-tier">Empire</div>
+          <div class="pricing-price" style="font-size: 36px; padding-top: 8px;">Custom</div>
+          <div class="pricing-period">Enterprise pricing</div>
+          <div class="pricing-divider"></div>
+          <ul class="pricing-features">
+            <li><span class="check">✓</span> Full AI ecosystem build-out</li>
+            <li><span class="check">✓</span> AI voice agents</li>
+            <li><span class="check">✓</span> Custom web application</li>
+            <li><span class="check">✓</span> CRM + WhatsApp automation</li>
+            <li><span class="check">✓</span> Multi-agent team support</li>
+            <li><span class="check">✓</span> Enterprise integrations</li>
+            <li><span class="check">✓</span> Dedicated support line</li>
+            <li><span class="check">✓</span> Custom AI workflows</li>
+          </ul>
+          <button class="pricing-cta" onclick="openModal()">Request Consultation</button>
+        </div>
+      </div>
+
+      <!-- RETAINERS -->
+      <div class="retainer-header animate-on-scroll">
+        <div class="retainer-label">🔒 Ongoing Management</div>
+        <h2 class="section-title">Private Client <span>Systems</span></h2>
+        <p class="section-subtitle">Elite ongoing management for agents who refuse to fall behind. Monthly retainers that keep your AI sharp.</p>
+      </div>
+
+      <div class="pricing-grid retainer-grid animate-on-scroll" style="margin-bottom: 0;">
+        <div class="pricing-card">
+          <div class="pricing-tier" style="color: var(--text-dim);">Maintain</div>
+          <div class="pricing-price"><sub>R</sub>2,999</div>
+          <div class="pricing-period">Per month</div>
+          <div class="pricing-divider"></div>
+          <ul class="pricing-features">
+            <li><span class="check">✓</span> Priority basic support</li>
+            <li><span class="check">✓</span> AI performance monitoring</li>
+            <li><span class="check">✓</span> Minor system updates</li>
+            <li><span class="check">✓</span> WhatsApp maintenance</li>
+            <li><span class="check">✓</span> Monthly performance report</li>
+          </ul>
+          <button class="pricing-cta" onclick="openModal()">Start Retainer</button>
+        </div>
+
+        <div class="pricing-card featured">
+          <div class="pricing-popular-badge">Recommended</div>
+          <div class="pricing-tier">Dominate</div>
+          <div class="pricing-price"><sub>R</sub>7,999</div>
+          <div class="pricing-period">Per month</div>
+          <div class="pricing-divider"></div>
+          <ul class="pricing-features">
+            <li><span class="check">✓</span> Priority support channel</li>
+            <li><span class="check">✓</span> Advanced AI optimization</li>
+            <li><span class="check">✓</span> Full CRM management</li>
+            <li><span class="check">✓</span> Lead flow monitoring</li>
+            <li><span class="check">✓</span> Monthly improvements</li>
+            <li><span class="check">✓</span> Analytics & tracking</li>
+            <li><span class="check">✓</span> Conversion optimization</li>
+          </ul>
+          <button class="pricing-cta featured-cta" onclick="openModal()">Dominate My Market</button>
+        </div>
+
+        <div class="pricing-card">
+          <div class="pricing-tier" style="color: var(--crimson);">Black Vale Private</div>
+          <div class="pricing-price" style="font-size: 36px; padding-top: 8px;">Custom</div>
+          <div class="pricing-period">Private client only</div>
+          <div class="pricing-divider"></div>
+          <ul class="pricing-features">
+            <li><span class="check">✓</span> Full automation management</li>
+            <li><span class="check">✓</span> Multi-agent team support</li>
+            <li><span class="check">✓</span> Dedicated optimization</li>
+            <li><span class="check">✓</span> AI workflow expansion</li>
+            <li><span class="check">✓</span> Enterprise scaling</li>
+            <li><span class="check">✓</span> Direct priority comms</li>
+          </ul>
+          <button class="pricing-cta" onclick="openModal()">Apply for Private</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       CONSULTATION CTA
+  ═══════════════════════════════════════ -->
+  <section id="consultation">
+    <div class="container">
+      <div class="consultation-inner animate-on-scroll">
+        <div class="consultation-layout">
+          <div class="consultation-info">
+            <div class="section-badge" style="margin-bottom: 20px;">Private Strategy Session</div>
+            <h2>Build Your Custom <span>AI System.</span></h2>
+            <p>Every real estate business operates differently. Book a private strategy consultation to create an AI system tailored to your listings, leads, and workflow. We'll map your entire automation strategy in one session.</p>
+            <div class="serious-tag">⚠️ Serious inquiries only.</div>
+
+            <div style="margin-top: 40px; display: flex; gap: 16px; flex-wrap: wrap;">
+              <a href="https://wa.me/27670091136?text=Hi%2C%20I%27d%20like%20to%20book%20a%20private%20consultation%20with%20Black%20Vale%20Automation." target="_blank" class="btn-primary" style="text-decoration: none;">
+                💬 WhatsApp Direct
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <form class="consultation-form" id="consultForm" onsubmit="submitConsult(event)">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Full Name</label>
+                  <input type="text" placeholder="Your full name" required />
+                </div>
+                <div class="form-group">
+                  <label>Agency Name</label>
+                  <input type="text" placeholder="Your agency" required />
+                </div>
+              </div>
+              <div class="form-group">
+                <label>WhatsApp Number</label>
+                <input type="tel" placeholder="+27 XXX XXX XXXX" required />
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Number of Agents</label>
+                  <select>
+                    <option value="">Select range</option>
+                    <option>Just me (solo agent)</option>
+                    <option>2–5 agents</option>
+                    <option>6–20 agents</option>
+                    <option>20+ agents</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Monthly Lead Volume</label>
+                  <select>
+                    <option value="">Select range</option>
+                    <option>Under 50 leads/month</option>
+                    <option>50–200 leads/month</option>
+                    <option>200–500 leads/month</option>
+                    <option>500+ leads/month</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Services Interested In</label>
+                <select>
+                  <option value="">Select service</option>
+                  <option>AI Chatbot Setup</option>
+                  <option>WhatsApp Integration</option>
+                  <option>Full Real Estate Website</option>
+                  <option>CRM Automation</option>
+                  <option>AI Voice Agents</option>
+                  <option>Full Elite System (R24,999)</option>
+                  <option>Custom Empire Build</option>
+                  <option>Monthly Management Retainer</option>
+                </select>
+              </div>
+              <div class="form-success" id="formSuccess">
+                <div style="font-size: 32px; margin-bottom: 12px;">✅</div>
+                <div style="font-size: 18px; font-weight: 700; color: var(--gold); margin-bottom: 8px;">Request Received</div>
+                <div style="font-size: 14px; color: var(--text-muted);">We'll reach out to your WhatsApp within 24 hours.</div>
+              </div>
+              <div class="form-buttons">
+                <button type="submit" class="btn-primary" style="flex:1; justify-content: center;">
+                  ⚡ Submit Consultation Request
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       FOUNDER
+  ═══════════════════════════════════════ -->
+  <section id="founder">
+    <div class="container">
+      <div class="founder-layout">
+        <div class="founder-images animate-on-scroll">
+          <div class="founder-gold-bar"></div>
+          <div class="founder-img-main">
+            <img
+              src="https://media.base44.com/images/public/6a05094a3d383c5c92302027/88f7ef8cc_file_00000000990071f5b1e0db323dc3985b.png"
+              alt="Sinethemba Mtshali"
+            />
+          </div>
+          <div class="founder-img-secondary">
+            <img
+              src="https://media.base44.com/images/public/6a05094a3d383c5c92302027/45109859e_IMG-20260324-WA0014.jpg"
+              alt="Sinethemba Mtshali"
+            />
+          </div>
+          <div class="founder-img-accent">
+            <img
+              src="https://media.base44.com/images/public/6a05094a3d383c5c92302027/6302289d2_IMG-20250216-WA0049.jpg"
+              alt="Sinethemba Mtshali"
+            />
+          </div>
+        </div>
+
+        <div class="founder-content animate-on-scroll delay-2">
+          <div class="founder-eyebrow">The Architect</div>
+          <h2 class="founder-name">Sinethemba Mtshali</h2>
+          <div class="founder-title">Founder & CEO — Black Vale Automation</div>
+
+          <p class="founder-bio">
+            <strong>Sinethemba built Black Vale from a simple premise:</strong> real estate agents work too hard chasing leads that go nowhere. He set out to change that — building <strong>AI automation systems</strong> that handle the noise, so agents can focus on what actually pays: closing deals.
+            <br /><br />
+            Operating from South Africa, Black Vale serves <strong>elite real estate professionals</strong> who understand that the market belongs to those who move fastest. Every system we build is engineered for one outcome — <strong>qualified buyers on your WhatsApp, while you sleep.</strong>
+          </p>
+
+          <div class="founder-contacts">
+            <a href="mailto:mtshalis001@proton.me" class="contact-item">
+              <div class="contact-icon">✉️</div>
+              <div>
+                <div class="contact-label">Business Email</div>
+                <div class="contact-value">mtshalis001@proton.me</div>
+              </div>
+            </a>
+            <a href="https://wa.me/27670091136?text=Hi%20Sinethemba%2C%20I%27m%20interested%20in%20Black%20Vale%20Automation." target="_blank" class="contact-item">
+              <div class="contact-icon">💬</div>
+              <div>
+                <div class="contact-label">WhatsApp Business</div>
+                <div class="contact-value">+27 67 009 1136</div>
+              </div>
+            </a>
+          </div>
+
+          <div class="founder-social">
+            <a href="https://wa.me/27670091136" target="_blank" class="social-btn">
+              💬 WhatsApp
+            </a>
+            <a href="https://instagram.com/themba_sm" target="_blank" class="social-btn">
+              📸 Instagram
+            </a>
+            <a href="https://tiktok.com/@themba_sm" target="_blank" class="social-btn">
+              🎵 TikTok
+            </a>
+            <button onclick="openModal()" class="btn-primary" style="font-size: 12px; padding: 12px 24px;">
+              ⚡ Book Now
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <h3>Black Vale Automation</h3>
+          <div class="footer-tagline">Power Moves. Automated.</div>
+          <p>Elite AI automation systems for real estate professionals who move different. Built in South Africa. Built for the top.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul class="footer-links">
+            <li><a href="#services">AI Chatbots</a></li>
+            <li><a href="#services">WhatsApp Integration</a></li>
+            <li><a href="#services">Lead Qualification</a></li>
+            <li><a href="#services">Real Estate Websites</a></li>
+            <li><a href="#services">CRM Automation</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul class="footer-links">
+            <li><a href="mailto:mtshalis001@proton.me">mtshalis001@proton.me</a></li>
+            <li><a href="https://wa.me/27670091136" target="_blank">WhatsApp: +27 67 009 1136</a></li>
+            <li><a href="#consultation">Book Consultation</a></li>
+            <li><a href="https://instagram.com/themba_sm" target="_blank">@themba_sm (Instagram)</a></li>
+            <li><a href="https://tiktok.com/@themba_sm" target="_blank">@themba_sm (TikTok)</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-copy">© 2026 <span>Black Vale Automation</span>. All rights reserved. Engineered for the elite.</div>
+        <div class="footer-copy" style="color: var(--text-muted);">Power Moves. Automated.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════
+       BOOKING MODAL
+  ═══════════════════════════════════════ -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <h2>Book a <span>Consultation</span></h2>
+      <p>Fill in your details and we'll reach out within 24 hours to build your custom AI system.</p>
+      <form class="modal-form" onsubmit="submitModal(event)">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" placeholder="Your full name" required />
+        </div>
+        <div class="form-group">
+          <label>WhatsApp Number</label>
+          <input type="tel" placeholder="+27 XXX XXX XXXX" required />
+        </div>
+        <div class="form-group">
+          <label>Agency Name</label>
+          <input type="text" placeholder="Your agency or company" required />
+        </div>
+        <div class="form-group">
+          <label>Service Interest</label>
+          <select>
+            <option value="">Choose a service</option>
+            <option>Starter System — R8,500</option>
+            <option>Elite System — R24,999</option>
+            <option>Empire — Custom</option>
+            <option>Monthly Retainer</option>
+            <option>Not sure yet — need guidance</option>
+          </select>
+        </div>
+        <div id="modalSuccess" style="display:none; text-align:center; padding: 20px;">
+          <div style="font-size: 28px; margin-bottom: 8px;">✅</div>
+          <div style="color: var(--gold); font-weight: 700; margin-bottom: 6px;">Request Submitted</div>
+          <div style="font-size: 13px; color: var(--text-muted);">Expect a WhatsApp message within 24 hours.</div>
+        </div>
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
+          ⚡ Request My Consultation
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // ═══════════════════════════════════
+    // CURSOR GLOW
+    // ═══════════════════════════════════
+    const cursorGlow = document.getElementById('cursorGlow');
+    document.addEventListener('mousemove', (e) => {
+      cursorGlow.style.left = e.clientX + 'px';
+      cursorGlow.style.top = e.clientY + 'px';
+    });
+
+    // ═══════════════════════════════════
+    // NAVBAR SCROLL
+    // ═══════════════════════════════════
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // ═══════════════════════════════════
+    // MOBILE MENU
+    // ═══════════════════════════════════
+    function toggleMenu() {
+      document.getElementById('mobileMenu').classList.toggle('open');
+    }
+
+    // ═══════════════════════════════════
+    // PARTICLES
+    // ═══════════════════════════════════
+    const particleContainer = document.getElementById('heroParticles');
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.width = (Math.random() * 2 + 1) + 'px';
+      p.style.height = p.style.width;
+      p.style.animationDuration = (Math.random() * 15 + 10) + 's';
+      p.style.animationDelay = (Math.random() * 10) + 's';
+      p.style.opacity = Math.random() * 0.6 + 0.1;
+      particleContainer.appendChild(p);
+    }
+
+    // ═══════════════════════════════════
+    // SCROLL ANIMATIONS
+    // ═══════════════════════════════════
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+    // ═══════════════════════════════════
+    // 3D CARD TILT
+    // ═══════════════════════════════════
+    document.querySelectorAll('.service-card, .testimonial-card, .pricing-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const xPct = (x / rect.width - 0.5) * 10;
+        const yPct = (y / rect.height - 0.5) * -10;
+        card.style.transform = `perspective(800px) rotateX(${yPct}deg) rotateY(${xPct}deg) translateY(-8px)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+
+    // ═══════════════════════════════════
+    // MODAL
+    // ═══════════════════════════════════
+    function openModal() {
+      document.getElementById('modalOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function closeModalOutside(e) {
+      if (e.target === document.getElementById('modalOverlay')) closeModal();
+    }
+
+    function submitModal(e) {
+      e.preventDefault();
+      document.getElementById('modalSuccess').style.display = 'block';
+      e.target.querySelectorAll('input, select').forEach(i => i.style.display = 'none');
+      e.target.querySelector('button[type="submit"]').style.display = 'none';
+      setTimeout(closeModal, 3000);
+    }
+
+    // ═══════════════════════════════════
+    // CONSULTATION FORM
+    // ═══════════════════════════════════
+    function submitConsult(e) {
+      e.preventDefault();
+      document.getElementById('formSuccess').classList.add('show');
+      e.target.querySelectorAll('input, select, textarea, .form-row, .form-buttons').forEach(i => i.style.display = 'none');
+    }
+
+    // ═══════════════════════════════════
+    // AI CHATBOT DEMO
+    // ═══════════════════════════════════
+    const aiResponses = {
+      default: ["I can help you with that! Could you tell me more about what type of property you're looking for?", "Great question. Our listings include properties across various price ranges and locations. What area are you interested in?", "I understand. To help you better, could you share your budget range and preferred location?"],
+      price: ["Our current listings range from R1.2M to R8.5M depending on location and size. What's your budget range?", "Pricing varies by area. Sandton properties start from R3.5M, while Pretoria has options from R1.2M. Any specific area?"],
+      viewing: ["I can schedule a viewing for you! Our agent is available Monday–Saturday. What day works best?", "Viewings are available daily. To book one, I'll need your preferred date and a contact number. What works for you?"],
+      bedroom: ["We have 2, 3, and 4-bedroom options currently available. How many bedrooms do you need?", "Our most popular listings are 3-bedroom homes. Shall I share some options with you?"],
+      location: ["We operate across Johannesburg, Pretoria, Cape Town, and Durban. Which area interests you?", "Great location choice! We have several premium listings in that area. Want me to send details to your WhatsApp?"],
+      whatsapp: ["I'll connect you with our agent on WhatsApp right now! Click the button below to start the conversation.", "Our agent is available on WhatsApp. I'll transfer you now so you can speak directly."],
+      hello: ["Welcome! I'm the Black Vale AI assistant. I specialize in connecting serious buyers with premium real estate. What are you looking for?", "Hello! Ready to find your perfect property? I handle everything from questions to viewing bookings. How can I help?"],
+    };
+
+    function getChatResponse(msg) {
+      const m = msg.toLowerCase();
+      if (m.includes('hello') || m.includes('hi') || m.includes('hey')) return pick(aiResponses.hello);
+      if (m.includes('price') || m.includes('cost') || m.includes('how much') || m.includes('rand')) return pick(aiResponses.price);
+      if (m.includes('view') || m.includes('visit') || m.includes('see')) return pick(aiResponses.viewing);
+      if (m.includes('bedroom') || m.includes('room') || m.includes('bed')) return pick(aiResponses.bedroom);
+      if (m.includes('where') || m.includes('location') || m.includes('area') || m.includes('joburg') || m.includes('cape')) return pick(aiResponses.location);
+      if (m.includes('whatsapp') || m.includes('agent') || m.includes('speak') || m.includes('call')) return pick(aiResponses.whatsapp);
+      return pick(aiResponses.default);
+    }
+
+    function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    function addMessage(text, isUser) {
+      const msgs = document.getElementById('chatMessages');
+      const msg = document.createElement('div');
+      msg.className = 'chat-msg' + (isUser ? ' user' : '');
+      msg.innerHTML = `
+        <div class="msg-avatar ${isUser ? 'user-av' : ''}">${isUser ? '👤' : '🤖'}</div>
+        <div class="msg-bubble">${text}</div>
+      `;
+      msgs.appendChild(msg);
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    function showTyping() {
+      const msgs = document.getElementById('chatMessages');
+      const typing = document.createElement('div');
+      typing.className = 'chat-msg';
+      typing.id = 'typingIndicator';
+      typing.innerHTML = `
+        <div class="msg-avatar">🤖</div>
+        <div class="msg-bubble">
+          <div class="typing-indicator">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+        </div>
+      `;
+      msgs.appendChild(typing);
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    function removeTyping() {
+      const t = document.getElementById('typingIndicator');
+      if (t) t.remove();
+    }
+
+    function sendChatMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+      addMessage(text, true);
+      input.value = '';
+      showTyping();
+      setTimeout(() => {
+        removeTyping();
+        addMessage(getChatResponse(text), false);
+      }, 1200 + Math.random() * 800);
+    }
+
+    function handleChatEnter(e) {
+      if (e.key === 'Enter') sendChatMessage();
+    }
+
+    // ═══════════════════════════════════
+    // COUNTER ANIMATION
+    // ═══════════════════════════════════
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.dataset.target);
+          if (!target) return;
+          let start = 0;
+          const inc = target / 50;
+          const timer = setInterval(() => {
+            start += inc;
+            if (start >= target) { el.textContent = target + '+'; clearInterval(timer); }
+            else el.textContent = Math.floor(start) + '+';
+          }, 30);
+          counterObserver.unobserve(el);
+        }
+      });
+    });
+
+    document.querySelectorAll('[data-target]').forEach(el => counterObserver.observe(el));
+  </script>
+</body>
+</html>
