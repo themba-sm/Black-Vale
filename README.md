@@ -25,7 +25,7 @@ Elite AI automation systems for real estate agents.
 ## Contact
 
 - **Email:** mtshalis001@proton.me
-- **WhatsApp:** +27 67 009 1136
+- **WhatsApp:** +27 74 753 4679
 - **Instagram:** [@themba_sm](https://instagram.com/themba_sm)
 - **TikTok:** [@themba_sm](https://tiktok.com/@themba_sm)
 
